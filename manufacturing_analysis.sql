@@ -4,11 +4,8 @@
 -- Date: January 2025
 -- ============================================
 
--- ============================================
--- SECTION 1: EXECUTIVE SUMMARY METRICS
--- ============================================
 
--- Query 1: Overall Summary Dashboard
+ -- Overall Summary Dashboard
 SELECT 
     COUNT(*) as total_batches,
     SUM(quantity_produced) as total_production,
@@ -20,11 +17,7 @@ SELECT
 FROM production_defects;
 
 
--- ============================================
--- SECTION 2: SHIFT ANALYSIS
--- ============================================
-
--- Query 2: Defect Rate by Shift
+-- Defect Rate by Shift
 SELECT 
     shift,
     COUNT(*) as production_batches,
@@ -38,11 +31,7 @@ GROUP BY shift
 ORDER BY defect_rate_pct DESC;
 
 
--- ============================================
--- SECTION 3: PRODUCTION LINE ANALYSIS
--- ============================================
-
--- Query 3: Production Line Performance
+-- Production Line Performance
 SELECT 
     production_line,
     COUNT(*) as batches,
@@ -60,11 +49,7 @@ GROUP BY production_line
 ORDER BY defect_rate_pct DESC;
 
 
--- ============================================
--- SECTION 4: DAY OF WEEK ANALYSIS (MONDAY EFFECT)
--- ============================================
-
--- Query 4: Defect Rate by Day of Week
+--  Defect Rate by Day of Week
 SELECT 
     day_of_week,
     COUNT(*) as batches,
@@ -90,11 +75,8 @@ ORDER BY
     END;
 
 
--- ============================================
--- SECTION 5: MACHINE PERFORMANCE
--- ============================================
 
--- Query 5: Machine Performance Ranking
+--  Machine Performance Ranking
 SELECT 
     machine_id,
     COUNT(*) as production_runs,
@@ -113,11 +95,7 @@ GROUP BY machine_id
 ORDER BY defect_rate_pct DESC;
 
 
--- ============================================
--- SECTION 6: OPERATOR PERFORMANCE
--- ============================================
-
--- Query 6: Top and Bottom Performing Operators
+-- Top and Bottom Performing Operators
 WITH operator_stats AS (
     SELECT 
         operator_id,
@@ -146,11 +124,7 @@ FROM operator_stats
 ORDER BY defect_rate_pct ASC;
 
 
--- ============================================
--- SECTION 7: DEFECT TYPE ANALYSIS
--- ============================================
-
--- Query 7: Defect Type Distribution
+--  Defect Type Distribution
 SELECT 
     defect_type,
     COUNT(*) as occurrences,
@@ -166,11 +140,7 @@ GROUP BY defect_type
 ORDER BY total_defects DESC;
 
 
--- ============================================
--- SECTION 8: MONTHLY TREND ANALYSIS
--- ============================================
-
--- Query 8: Monthly Defect Trend
+-- Monthly Defect Trend
 SELECT 
     month,
     SUM(quantity_produced) as monthly_production,
@@ -190,11 +160,7 @@ GROUP BY month
 ORDER BY MIN(production_date);
 
 
--- ============================================
--- SECTION 9: MATERIAL BATCH QUALITY
--- ============================================
-
--- Query 9: Identify Problem Material Batches
+--  Identify Problem Material Batches
 SELECT 
     material_batch,
     COUNT(*) as times_used,
@@ -213,11 +179,8 @@ ORDER BY defect_rate_pct DESC
 LIMIT 15;
 
 
--- ============================================
--- SECTION 10: HIGH RISK COMBINATIONS
--- ============================================
 
--- Query 10: Identify Risky Production Combinations
+--  Identify Risky Production Combinations
 SELECT 
     production_line,
     shift,
@@ -237,11 +200,7 @@ ORDER BY defect_rate_pct DESC
 LIMIT 15;
 
 
--- ============================================
--- SECTION 11: COST IMPACT ANALYSIS
--- ============================================
-
--- Query 11: Cost Impact by Category
+--  Cost Impact by Category
 SELECT 'Production Line' as category, production_line as subcategory, SUM(defect_cost) as total_cost
 FROM production_defects GROUP BY production_line
 UNION ALL
@@ -253,11 +212,8 @@ FROM production_defects GROUP BY product_type
 ORDER BY category, total_cost DESC;
 
 
--- ============================================
--- SECTION 12: WEEKLY PERFORMANCE TRACKING
--- ============================================
 
--- Query 12: Weekly Performance Trend
+-- Weekly Performance Trend
 SELECT 
     week_number,
     COUNT(*) as batches,
@@ -269,4 +225,5 @@ SELECT
         OVER (ORDER BY week_number ROWS BETWEEN 3 PRECEDING AND CURRENT ROW), 2) as four_week_moving_avg
 FROM production_defects
 GROUP BY week_number
+
 ORDER BY week_number;
