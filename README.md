@@ -1,7 +1,5 @@
 # 🏭 Manufacturing Quality Intelligence Dashboard
 
-Dashboard.pdf
-
 ## 📊 Project Overview
 
 Analyzed **1,000+ manufacturing production records** to identify defect patterns, root causes, and cost-saving opportunities. This project demonstrates end-to-end data analytics from data generation to actionable insights.
